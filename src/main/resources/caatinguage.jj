@@ -1,0 +1,86 @@
+options {
+  STATIC = false;
+  DEBUG_PARSER = false;
+  IGNORE_CASE = true;
+}
+
+PARSER_BEGIN(Parser)
+package parser;
+
+public class Parser {
+}
+PARSER_END(Parser)
+
+/* Ignorar espaços e comentários */
+SKIP : {
+  " " | "\t" | "\n" | "\r" | "\r\n"
+| <"//" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>
+| <"/*" (~["*"])* "*" (~["/"] (~["*"])* "*")* "/">
+}
+
+/* Palavras Reservadas */
+TOKEN : {
+  < PRS01: "integer" >
+| < PRS02: "real" >
+| < PRS03: "character" >
+| < PRS04: "string" >
+| < PRS05: "boolean" >
+| < PRS06: "void" >
+| < PRS07: "true" >
+| < PRS08: "false" >
+| < PRS09: "varType" >
+| < PRS10: "funcType" >
+| < PRS11: "paramType" >
+| < PRS12: "declarations" >
+| < PRS13: "endDeclarations" >
+| < PRS14: "program" >
+| < PRS15: "endProgram" >
+| < PRS16: "functions" >
+| < PRS17: "endFunctions" >
+| < PRS18: "endFunction" >
+| < PRS19: "return" >
+| < PRS20: "if" >
+| < PRS21: "else" >
+| < PRS22: "endif" >
+| < PRS23: "while" >
+| < PRS24: "endWhile" >
+| < PRS25: "break" >
+| < PRS26: "print" >
+}
+
+/* Simbolos Especiais */
+TOKEN : {
+  < SRS01: ";" > | < SRS02: "," > | < SRS03: ":" > | < SRS04: ":=" >
+| < SRS05: "?" > | < SRS06: "(" > | < SRS07: ")" > | < SRS08: "[" >
+| < SRS09: "]" > | < SRS10: "{" > | < SRS11: "}" > | < SRS12: "+" >
+| < SRS13: "-" > | < SRS14: "*" > | < SRS15: "/" > | < SRS16: "%" >
+| < SRS17: "==" > | < SRS18: "!=" | "#" >
+| < SRS19: "<" > | < SRS20: "<=" > | < SRS21: ">" > | < SRS22: ">=" >
+}
+
+/* Identificadores e Constantes */
+TOKEN : {
+  < #LETRA: ["a"-"z","A"-"Z"] >
+| < #DIGITO: ["0"-"9"] >
+
+  // Identificador geral
+| < IDENTIFIER: <LETRA> (<LETRA> | <DIGITO> | "_")* >
+
+  // Numeros inteiros
+| < INT_CONST: (<DIGITO>)+ >
+
+  // Numeros reais
+| < REAL_CONST: (<DIGITO>)+ "." (<DIGITO>)+ (<EXPONENT>)? >
+| < #EXPONENT: ["e","E"] (["+","-"])? (<DIGITO>)+ >
+
+  // String
+| < STRING_CONST: "\"" (~["\""])* "\"" >
+
+  // Char
+| < CHAR_CONST: "\'" (~["\'"]) "\'" >
+}
+
+/* Caracteres invalidos (sao ignorados) */
+SKIP : {
+ < ~[] >
+}
