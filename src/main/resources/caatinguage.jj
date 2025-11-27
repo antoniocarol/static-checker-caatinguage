@@ -63,20 +63,19 @@ TOKEN : {
   < #LETRA: ["a"-"z","A"-"Z"] >
 | < #DIGITO: ["0"-"9"] >
 
-  // Identificador geral
-| < IDENTIFIER: <LETRA> (<LETRA> | <DIGITO> | "_")* >
+| < IDENTIFIER: (<LETRA> | "_") (<LETRA> | <DIGITO> | "_")* >
 
-  // Numeros inteiros
+  // Numeros inteiros (IDN04)
 | < INT_CONST: (<DIGITO>)+ >
 
-  // Numeros reais
+  // Numeros reais (IDN05)
 | < REAL_CONST: (<DIGITO>)+ "." (<DIGITO>)+ (<EXPONENT>)? >
 | < #EXPONENT: ["e","E"] (["+","-"])? (<DIGITO>)+ >
 
-  // String
+  // String (IDN06)
 | < STRING_CONST: "\"" (~["\""])* "\"" >
 
-  // Char
+  // Char (IDN07)
 | < CHAR_CONST: "\'" (~["\'"]) "\'" >
 }
 
